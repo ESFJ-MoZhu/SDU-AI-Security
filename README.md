@@ -42,31 +42,7 @@
 * Knockoff nets 拿别人的输出自己学
 * 半监督学习
 * 借助密码分析方法进行分析:ReLU的二阶导为0 & 有限差分
-Data-Free Model Extraction
-
-$$
-\begin{equation}
-    \mathcal{L}_{\ell_1} = \sum_{i=1}^{K} |v_i - s_i|
-\end{equation}
-其中：
-\begin{itemize}
-    \item $v_i$ 表示 \textbf{Victim Model}（受害模型）的 logits 输出
-    \item $s_i$ 表示 \textbf{Student Model}（攻击者模型）的 logits 输出
-    \item $K$ 为 logits 的维度（类别数）
-\end{itemize}
-
-\subsection*{优缺点分析}
-
-\textbf{Pro 优势}：
-\begin{itemize}
-    \item 无梯度消失问题（相比 KL 散度损失，$\ell_1$ loss 在收敛时依然有梯度，训练更稳定）
-\end{itemize}
-
-\textbf{Con 劣势}：
-\begin{itemize}
-    \item 需要访问受害模型的 logits 输出（假设黑箱模型能够返回 logits，而不仅仅是分类标签）
-\end{itemize}
-
-$$
-
+*  Data-Free Model Extraction ......
+ ## 数据提取 
+ * 模型反演攻击（Model Inversion Attack），利用模型提取的结果，推出训练数据
  
