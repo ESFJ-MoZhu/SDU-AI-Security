@@ -26,6 +26,7 @@
 ### 防御手段
 * ABS（Activation-based Backdoor Scanning, 基于激活的后门检测）方法。后门神经元在被特定触发器激活时，会导致目标输出类别异常激活。这种现象体现在某些神经元的激活值达到特殊水平时，网络输出几乎只依赖这些神经元，而对其他神经元不敏感。正常模型不会出现“单个神经元控制输出”的异常模式。
 ## 模型提取
+方程求解方法与通过学习模拟的方法
 攻击者（adversarial client）通过尽可能少的查询，学习到目标模型 𝑓的“近似拷贝” 𝑓′,使得 𝑓′(𝑥) 和f(x) 在 99.9% 以上输入上输出一致。
 * 对逻辑回归模型的提取攻击，变换方程根据输入输出推测w和b
 * Generic Equation-Solving Attack（通用方程求解攻击）攻击者准备一批输入 X,这些输入送入远程的机器学习服务,服务返回置信度,用优化算法（如梯度下降）反复调整 W，使损失最小。总结来说构造输入 → 查询模型 → 收集输出 → 拟合自己的神经网络参数
@@ -34,4 +35,38 @@
 * Generic Model Retraining Attack（通用模型重训练攻击）远不如方程求解法高效。主动学习可以大幅提升模型“扒取”效率，但在深度非线性模型下仍比直接方程求解低效许多
 ### 防御
 * API最小化是一种防御策略,只返回类别标签，不返回置信度分数。但是，如果攻击者能用成员资格查询，依然能学习模型（如低效攻击）
+* 限制预测信息，例如仅返回类别标签，而不返回或修改/隐藏/四舍五入置信度值
+* 使用多个模型的组合来增加攻击难度，提高鲁棒性
+* 通过差分隐私技术保护模型参数，防止攻击者通过查询推测模型内部信息。
+### 学习模拟的思路
+* Knockoff nets 拿别人的输出自己学
+* 半监督学习
+* 借助密码分析方法进行分析:ReLU的二阶导为0 & 有限差分
+Data-Free Model Extraction
+
+$$
+\begin{equation}
+    \mathcal{L}_{\ell_1} = \sum_{i=1}^{K} |v_i - s_i|
+\end{equation}
+其中：
+\begin{itemize}
+    \item $v_i$ 表示 \textbf{Victim Model}（受害模型）的 logits 输出
+    \item $s_i$ 表示 \textbf{Student Model}（攻击者模型）的 logits 输出
+    \item $K$ 为 logits 的维度（类别数）
+\end{itemize}
+
+\subsection*{优缺点分析}
+
+\textbf{Pro 优势}：
+\begin{itemize}
+    \item 无梯度消失问题（相比 KL 散度损失，$\ell_1$ loss 在收敛时依然有梯度，训练更稳定）
+\end{itemize}
+
+\textbf{Con 劣势}：
+\begin{itemize}
+    \item 需要访问受害模型的 logits 输出（假设黑箱模型能够返回 logits，而不仅仅是分类标签）
+\end{itemize}
+
+$$
+
  
