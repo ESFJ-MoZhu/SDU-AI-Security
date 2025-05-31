@@ -50,7 +50,7 @@
  * Training Data Extraction Attack（训练数据提取攻击）
  * Model Memorization Attack（模型记忆攻击）
  * Model Inversion Attack（模型反演攻击）
- * ```
+```
    模型容量 (Model Capacity)
 定义：DNN的参数数量通常远大于训练样本数，使其具有记住训练数据的能力。
 
