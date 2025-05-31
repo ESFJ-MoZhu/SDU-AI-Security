@@ -45,4 +45,26 @@
 *  Data-Free Model Extraction ......
  ## 数据提取 
  * 模型反演攻击（Model Inversion Attack），利用模型提取的结果，推出训练数据
+ * Data Extraction Attack（数据提取攻击）
+ * Data Stealing Attack（数据窃取攻击）
+ * Training Data Extraction Attack（训练数据提取攻击）
+ * Model Memorization Attack（模型记忆攻击）
+ * Model Inversion Attack（模型反演攻击）
+ * ```
+   模型容量 (Model Capacity)
+定义：DNN的参数数量通常远大于训练样本数，使其具有记住训练数据的能力。
+
+示例：ResNet-50有约2500万个参数，而CIFAR-10数据集仅包含6万张图像。
+
+优化目标 (Optimization Objective)
+定义：DNN的训练目标是最小化损失函数（如交叉熵），可能导致对噪声或异常样本的过拟合。
+
+示例：若某张图像被错误标注，DNN可能通过记住该样本来降低损失。
+
+数据分布 (Data Distribution)
+定义：训练数据中的噪声、重复样本或敏感信息可能被DNN记住。
+
+示例：医疗数据中的罕见病例可能被DNN记住，导致隐私泄露。
+```
+
  
