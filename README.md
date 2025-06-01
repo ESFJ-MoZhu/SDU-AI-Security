@@ -120,3 +120,5 @@ weight decay, dropout, and quantization 三种 regularization 方法均不能解
 ## 能量延迟
 * 影响每次推理所消耗能量的主要因素：输入数据在计算过程中所需的算术运算次数，访问内存的次数
 * 海绵样本:攻击者精心设计某些输入，这些输入会让模型在推理时陷入大量计算和内存访问，大幅度提高耗时和能耗
+## 可解释性
+Fairness（公平性）Privacy（隐私性）Safety and Robustness（安全和鲁棒性）Causality（因果性）Trust（可信赖）
