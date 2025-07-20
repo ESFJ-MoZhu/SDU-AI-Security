@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Poseidon2 Circuit Compilation Script
-# This script compiles the Poseidon2 circuits using Circom
+# This script compiles the Poseidon2 circuits using Circom 2.x
 
 set -e
 
@@ -30,9 +30,18 @@ echo_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
+# Check for circom
+if ! command -v circom &> /dev/null; then
+    echo_error "circom not found! Please install Circom 2.x"
+    exit 1
+fi
+
+CIRCOM_VERSION=$(circom --version | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')
+echo_status "Using Circom version: $CIRCOM_VERSION"
+
 # Compile main Poseidon2 circuit
 echo_status "Compiling main Poseidon2 circuit..."
-circom $CIRCUITS_DIR/poseidon2.circom --r1cs --wasm --sym --c -o $BUILD_DIR/
+circom $CIRCUITS_DIR/poseidon2_minimal.circom --r1cs --wasm --sym -o $BUILD_DIR/
 
 if [ $? -eq 0 ]; then
     echo_status "Main circuit compiled successfully!"
@@ -41,14 +50,14 @@ else
     exit 1
 fi
 
-# Compile test circuit
-echo_status "Compiling test circuit..."
-circom $CIRCUITS_DIR/tests/poseidon2_test.circom --r1cs --wasm --sym --c -o $BUILD_DIR/
+# Compile calculator circuit (for testing)
+echo_status "Compiling calculator circuit..."
+circom $CIRCUITS_DIR/poseidon2_calculator.circom --r1cs --wasm --sym -o $BUILD_DIR/
 
 if [ $? -eq 0 ]; then
-    echo_status "Test circuit compiled successfully!"
+    echo_status "Calculator circuit compiled successfully!"
 else
-    echo_error "Failed to compile test circuit!"
+    echo_error "Failed to compile calculator circuit!"
     exit 1
 fi
 
@@ -56,24 +65,23 @@ fi
 echo_status "Circuit compilation completed!"
 echo ""
 echo "Generated files:"
-echo "  - $BUILD_DIR/poseidon2.r1cs"
-echo "  - $BUILD_DIR/poseidon2_js/"
-echo "  - $BUILD_DIR/poseidon2.sym"
-echo "  - $BUILD_DIR/poseidon2_cpp/"
-echo "  - $BUILD_DIR/poseidon2_test.r1cs"
-echo "  - $BUILD_DIR/poseidon2_test_js/"
+echo "  - $BUILD_DIR/poseidon2_minimal.r1cs"
+echo "  - $BUILD_DIR/poseidon2_minimal_js/"
+echo "  - $BUILD_DIR/poseidon2_minimal.sym"
 echo ""
 
 # Show circuit statistics
 if command -v snarkjs &> /dev/null; then
     echo_status "Circuit statistics:"
     echo "Main circuit:"
-    snarkjs r1cs info $BUILD_DIR/poseidon2.r1cs
+    snarkjs r1cs info $BUILD_DIR/poseidon2_minimal.r1cs
     echo ""
-    echo "Test circuit:"
-    snarkjs r1cs info $BUILD_DIR/poseidon2_test.r1cs
 else
     echo_warning "snarkjs not found, skipping circuit statistics"
 fi
 
 echo_status "Compilation script completed successfully!"
+echo ""
+echo "Next steps:"
+echo "  1. Run setup.sh to perform trusted setup"
+echo "  2. Run prove.sh to generate and verify proofs"
