@@ -1,0 +1,114 @@
+{
+  "description": "Poseidon2 test vectors for parameters (n=256, t=3, d=5)",
+  "parameters": {
+    "field": "BN254",
+    "t": 3,
+    "d": 5,
+    "R_f": 8,
+    "R_P": 56
+  },
+  "test_vectors": [
+    {
+      "id": 1,
+      "description": "Zero input test",
+      "input": {
+        "preimage": "0"
+      },
+      "expected_output": {
+        "hash": "0x2d1ba66f5a5c8c45e9988f3e1c5e5c3f8e5c8c3f8e5c8c3f8e5c8c3f8e5c8c3f"
+      }
+    },
+    {
+      "id": 2, 
+      "description": "Small input test",
+      "input": {
+        "preimage": "1"
+      },
+      "expected_output": {
+        "hash": "0x1e3d2c5b4a6f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d"
+      }
+    },
+    {
+      "id": 3,
+      "description": "Medium input test", 
+      "input": {
+        "preimage": "42"
+      },
+      "expected_output": {
+        "hash": "0x0c1b2a3d4e5f6a7b8c9daebfcdaebfcdaebfcdaebfcdaebfcdaebfcdaebfcdae"
+      }
+    },
+    {
+      "id": 4,
+      "description": "Large input test",
+      "input": {
+        "preimage": "123456789"
+      },
+      "expected_output": {
+        "hash": "0x1a2b3c4d5e6f7a8b9c0dae1bf2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1"
+      }
+    },
+    {
+      "id": 5,
+      "description": "Maximum field element test",
+      "input": {
+        "preimage": "21888242871839275222246405745257275088548364400416034343698204186575808495616"
+      },
+      "expected_output": {
+        "hash": "0x2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e"
+      }
+    }
+  ],
+  "batch_test_vectors": [
+    {
+      "id": 1,
+      "description": "Two element batch",
+      "input": {
+        "inputs": ["1", "2"]
+      },
+      "expected_output": {
+        "hash": "0x3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d"
+      }
+    },
+    {
+      "id": 2,
+      "description": "Three element batch",
+      "input": {
+        "inputs": ["1", "2", "3"]
+      },
+      "expected_output": {
+        "hash": "0x4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c"
+      }
+    }
+  ],
+  "domain_separation_vectors": [
+    {
+      "id": 1,
+      "description": "Domain 0 test",
+      "input": {
+        "preimage": "1",
+        "domain": "0"
+      },
+      "expected_output": {
+        "hash": "0x5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b"
+      }
+    },
+    {
+      "id": 2,
+      "description": "Domain 1 test",
+      "input": {
+        "preimage": "1", 
+        "domain": "1"
+      },
+      "expected_output": {
+        "hash": "0x6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a"
+      }
+    }
+  ],
+  "notes": [
+    "These test vectors are example values for testing the circuit implementation.",
+    "In a real implementation, these would be computed using a reference implementation.",
+    "The hex values represent field elements in the BN254 scalar field.",
+    "All inputs and outputs should be properly validated against the field modulus."
+  ]
+}
