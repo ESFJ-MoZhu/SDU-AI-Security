@@ -141,7 +141,7 @@ template Squeeze() {
 
 template Poseidon2Hash() {
     signal input expectedHash;
-    signal private input preimage;
+    signal input preimage;
     signal output hash;
     
     signal initialState[3];
